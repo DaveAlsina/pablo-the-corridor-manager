@@ -27,7 +27,7 @@ def create_task_types(db):
             "category": "toilet",
             "description": "Clean toilet 1 (the closest to the main entrance)",
             "instructions": "1. Vacuum floor\n2. clean toilet bowl with toilet cleaner\n3. wipe sink, mirror & door handle\n4. mop floor\n5. empty trash bin\n6. refill toilet paper if needed",
-            "estimated_duration_minutes": 20,
+            "estimated_duration_minutes": 45,
             "location": "Closest to main entrance, diagonally opposite kitchen"
         },
         {
@@ -35,7 +35,7 @@ def create_task_types(db):
             "category": "toilet",
             "description": "Clean toilet 2 (the one next to toilet 1 with the john deer tractor poster)",
             "instructions": "1. Vacuum floor\n2. clean toilet bowl with toilet cleaner\n3. wipe sink, mirror & door handle\n4. mop floor\n5. empty trash bin\n6. refill toilet paper if needed",
-            "estimated_duration_minutes": 20,
+            "estimated_duration_minutes": 45,
             "location": "Next to toilet 1, diagonally opposite kitchen"
         },
         {
@@ -43,7 +43,7 @@ def create_task_types(db):
             "category": "toilet",
             "description": "Clean toilet 3 (aka ladies toilet)",
             "instructions": "1. Vacuum floor\n2. clean toilet bowl with toilet cleaner\n3. wipe sink, mirror & door handle\n4. mop floor\n5. empty trash bin\n6. refill toilet paper if needed",
-            "estimated_duration_minutes": 20,
+            "estimated_duration_minutes": 45,
             "location": "Close to the end of the hall on the right side, after the laundry room."
         },
         {
@@ -51,7 +51,7 @@ def create_task_types(db):
             "category": "toilet",
             "description": "Clean toilet 4 (male only toilet)",
             "instructions": "1. Vacuum floor\n2. clean toilet bowl with toilet cleaner\n3. wipe sink, mirror & door handle\n4. mop floor\n5. empty trash bin\n6. refill toilet paper if needed",
-            "estimated_duration_minutes": 20,
+            "estimated_duration_minutes": 45,
             "location": "Right next to toilet 3, in the very end of the hall on the right side."
         },
         
@@ -61,7 +61,7 @@ def create_task_types(db):
             "category": "shower",
             "description": "Clean shower room 1",
             "instructions": "1. Scrub shower walls and floor\n2. Clean drain\n3. Wipe mirrors and sinks\n4. Mop floor\n5. Empty trash",
-            "estimated_duration_minutes": 20,
+            "estimated_duration_minutes": 60,
             "location": "Is the shower closest to the main entrance, diagonally opposite kitchen"
         },
         {
@@ -69,7 +69,7 @@ def create_task_types(db):
             "category": "shower",
             "description": "Clean shower room 2",
             "instructions": "1. Scrub shower walls and floor\n2. Clean drain\n3. Wipe mirrors and sinks\n4. Mop floor\n5. Empty trash",
-            "estimated_duration_minutes": 20,
+            "estimated_duration_minutes": 60,
             "location": "Is the shower next to shower 1, diagonally opposite kitchen"
         },
         {
@@ -77,7 +77,7 @@ def create_task_types(db):
             "category": "shower",
             "description": "Clean shower room 3",
             "instructions": "1. Scrub shower walls and floor\n2. Clean drain\n3. Wipe mirrors and sinks\n4. Mop floor\n5. Empty trash",
-            "estimated_duration_minutes": 20,
+            "estimated_duration_minutes": 60,
             "location": "On the right wing of the corridor, in the very end of the hall"
         },
         {
@@ -85,7 +85,7 @@ def create_task_types(db):
             "category": "shower",
             "description": "Clean shower room D",
             "instructions": "1. Scrub shower walls and floor\n2. Clean drain\n3. Wipe mirrors and sinks\n4. Mop floor\n5. Empty trash",
-            "estimated_duration_minutes": 20,
+            "estimated_duration_minutes": 60,
             "location": "On the left wing of the corridor, in the very end of the hall"
         },
         
@@ -95,7 +95,7 @@ def create_task_types(db):
             "category": "kitchen",
             "description": "Clean stove, oven & extractor hood",
             "instructions": "Clean stove, oven & extractor hood. Wipe down surfaces.",
-            "estimated_duration_minutes": 25,
+            "estimated_duration_minutes": 50,
             "location": "Main kitchen"
         },
         {
@@ -103,7 +103,7 @@ def create_task_types(db):
             "category": "kitchen",
             "description": "Clean exterior surfaces",
             "instructions": "Clean floor, walls, table, outsides of cupboards/fridges, windows, couches (also behind couch). Deep-clean (behind) stove.",
-            "estimated_duration_minutes": 30,
+            "estimated_duration_minutes": 45,
             "location": "Main kitchen"
         },
         {
@@ -111,7 +111,7 @@ def create_task_types(db):
             "category": "kitchen",
             "description": "Clean interior and dishes",
             "instructions": "Clean insides of cupboards and microwave, sort dishes. Clean kitchen-block.",
-            "estimated_duration_minutes": 25,
+            "estimated_duration_minutes": 35,
             "location": "Main kitchen"
         },
         
@@ -121,7 +121,7 @@ def create_task_types(db):
             "category": "fridge",
             "description": "Clean communal fridge #1",
             "instructions": "Clean the fridge you use most. If that's in your room, you are 'Backup'.",
-            "estimated_duration_minutes": 20,
+            "estimated_duration_minutes": 40,
             "location": "Look for the number on the fridge, as they are not in a particular order and they are subject to change in the future."
         },
         {
@@ -129,7 +129,7 @@ def create_task_types(db):
             "category": "fridge",
             "description": "Clean communal fridge #2",
             "instructions": "Clean the fridge you use most. If that's in your room, you are 'Backup'.",
-            "estimated_duration_minutes": 20,
+            "estimated_duration_minutes": 40,
             "location": "Look for the number on the fridge, as they are not in a particular order and they are subject to change in the future."
         },
         {
@@ -137,7 +137,7 @@ def create_task_types(db):
             "category": "fridge",
             "description": "Clean communal fridge #3",
             "instructions": "Clean the fridge you use most. If that's in your room, you are 'Backup'.",
-            "estimated_duration_minutes": 20,
+            "estimated_duration_minutes": 40,
             "location": "Look for the number on the fridge, as they are not in a particular order and they are subject to change in the future."
         },
         {
@@ -145,7 +145,7 @@ def create_task_types(db):
             "category": "fridge",
             "description": "Clean communal fridge #4",
             "instructions": "Clean the fridge you use most. If that's in your room, you are 'Backup'.",
-            "estimated_duration_minutes": 20,
+            "estimated_duration_minutes": 40,
             "location": "Look for the number on the fridge, as they are not in a particular order and they are subject to change in the future."
         },
         
@@ -155,7 +155,7 @@ def create_task_types(db):
             "category": "hallway",
             "description": "Vacuum and mop floor of the hall",
             "instructions": "Vacuum and mop the floor of Main hall and Side hall. Make pictures of stuff we don't use, remove if nobody claims/no need.",
-            "estimated_duration_minutes": 30,
+            "estimated_duration_minutes": 40,
             "location": "Entire Hall"
         },
         
@@ -165,7 +165,7 @@ def create_task_types(db):
             "category": "laundry",
             "description": "Clean laundry room",
             "instructions": "Wash, hang and fold corridor wash. Deep-clean the machines and empty container.",
-            "estimated_duration_minutes": 30,
+            "estimated_duration_minutes": 40,
             "location": "Laundry room"
         },
         
@@ -175,7 +175,7 @@ def create_task_types(db):
             "category": "trash",
             "description": "Empty paper/cardboard, glass and plastic bins",
             "instructions": "Empty the paper/cardboard, glass and plastic bins to outside containers",
-            "estimated_duration_minutes": 15,
+            "estimated_duration_minutes": 25,
             "location": "Kitchen"
         },
         {
@@ -183,7 +183,7 @@ def create_task_types(db):
             "category": "trash",
             "description": "Empty kitchen trash",
             "instructions": "Empty the kitchen trash bin and clean the crates at the beginning of the hall",
-            "estimated_duration_minutes": 7,
+            "estimated_duration_minutes": 15,
             "location": "Kitchen/Hall"
         },
     ]
@@ -302,8 +302,8 @@ def populate_database():
         
         # Create all data
         create_task_types(db)
-        create_test_people(db)
-        create_test_opt_outs(db)
+        #create_test_people(db)
+        #create_test_opt_outs(db)
         create_current_week(db)
     
     logger.info("Database population completed successfully!")

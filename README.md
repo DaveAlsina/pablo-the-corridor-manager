@@ -6,6 +6,13 @@
 
 This is software for managing taks of a corridor, helps setting timed reminders of tasks, keeping track of done tasks and administering penalties if unmet criteria, all with a telegram bot interface.
 
+## Principles
+
+This bot is designed to manage the corridor tasks in a fair and transparent way, promoting cooperation and shared responsibility among residents. The main principles are:
+
+1. **Uneven contribution**: Not everyone has to do the same amount of tasks every week, but over time everyone should contribute fairly according to their capabilities and availability. This system allows for flexibility and acknowledges that some weeks people may be busier than others. But makes clear when someone is not contributing and asks why. 
+
+
 ---
 
 ## Features (Phase 1 - MVP)
