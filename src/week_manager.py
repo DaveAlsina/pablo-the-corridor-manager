@@ -28,7 +28,7 @@ AUTO_CREATE_NEW_WEEK = True
 NEW_WEEK_DEADLINE_DAY = 6  # Sunday
 
 # New week deadline time (hour, minute)
-NEW_WEEK_DEADLINE_TIME = (23, 59)  # 11:59 PM
+NEW_WEEK_DEADLINE_TIME = (23, 58)  # 11:59 PM
 
 # ====================================
 
@@ -51,7 +51,7 @@ async def check_and_rollover_week(app: Application, group_chat_id: int):
             if AUTO_CREATE_NEW_WEEK:
                 await create_new_week(db, app, group_chat_id)
             return
-        
+            
         # Check if deadline has passed
         now = datetime.now()
         if now < current_week.deadline:
@@ -200,11 +200,14 @@ async def create_new_week(db, app: Application, group_chat_id: int):
         minute=NEW_WEEK_DEADLINE_TIME[1],
         second=59
     )
+
+    start_date = now.replace(hour=0, minute=0, second=0, microsecond=0)
     
     # Create week
     new_week = Week(
         week_number=week_number,
         year=year,
+        start_date=start_date,
         deadline=deadline,
         closed=False
     )
