@@ -27,6 +27,18 @@ CATEGORY_EMOJIS = {
     "other": "📦"
 }
 
+# NEW: Task frequency (how often each category needs to be done)
+CATEGORY_FREQUENCY = {
+    "toilet": 2,    # Every 2 weeks
+    "shower": 2,    # Every 2 weeks
+    "kitchen": 1,   # Every week (default)
+    "fridge": 1,    # Every week
+    "hallway": 1,   # Every week
+    "laundry": 1,   # Every week
+    "trash": 1,     # Every week
+    "other": 1      # Every week
+}
+
 
 def create_main_menu(is_private: bool = True) -> InlineKeyboardMarkup:
     """Create the main menu keyboard based on chat type."""
@@ -126,7 +138,6 @@ def create_category_menu(action: str = "complete") -> InlineKeyboardMarkup:
         
         return InlineKeyboardMarkup(keyboard)
 
-
 def create_task_menu(category: str, action: str = "complete") -> InlineKeyboardMarkup:
     """Create task selection menu for a category."""
     with get_db() as db:
@@ -134,6 +145,9 @@ def create_task_menu(category: str, action: str = "complete") -> InlineKeyboardM
         
         if not current_week:
             return None
+        
+        # Get category frequency
+        frequency = CATEGORY_FREQUENCY.get(category, 1)
         
         # Get tasks for this category
         query = (
@@ -150,20 +164,51 @@ def create_task_menu(category: str, action: str = "complete") -> InlineKeyboardM
             query = query.filter(TaskInstance.status == "pending")
         elif action == "amend":
             query = query.filter(TaskInstance.status == "completed")
-        # For ask/optout, show all tasks
         
         tasks = query.order_by(TaskType.name).all()
         
         if not tasks:
             return None
         
-        # Create buttons (1 per row for readability)
+        # Filter tasks by frequency (only for complete action)
+        if action == "complete" and frequency > 1:
+            # Get recent weeks to check
+            recent_weeks = (
+                db.query(Week)
+                .filter(Week.closed == True)
+                .order_by(Week.deadline.desc())
+                .limit(frequency - 1)
+                .all()
+            )
+            recent_week_ids = [w.id for w in recent_weeks]
+            
+            # Filter out tasks completed recently
+            filtered_tasks = []
+            for task in tasks:
+                # Check if this task type was completed in recent weeks
+                was_completed_recently = (
+                    db.query(TaskInstance)
+                    .filter(
+                        TaskInstance.task_type_id == task.task_type_id,
+                        TaskInstance.week_id.in_(recent_week_ids),
+                        TaskInstance.status == "completed"
+                    )
+                    .first()
+                )
+                
+                if not was_completed_recently:
+                    filtered_tasks.append(task)
+            
+            tasks = filtered_tasks
+        
+        if not tasks:
+            return None
+        
+        # Create buttons
         keyboard = []
         for task in tasks:
             task_type = task.task_type
             duration = f" - {task_type.estimated_duration_minutes}min" if task_type.estimated_duration_minutes else ""
-            
-            # Add status indicator
             status_emoji = "✅" if task.status == "completed" else "⏳"
             button_text = f"{status_emoji} {task_type.name}{duration}"
             
@@ -172,7 +217,6 @@ def create_task_menu(category: str, action: str = "complete") -> InlineKeyboardM
                 callback_data=f"{action}:task:{task.id}"
             )])
         
-        # Add back button
         keyboard.append([InlineKeyboardButton("« Back to Categories", callback_data=f"{action}:categories")])
         
         return InlineKeyboardMarkup(keyboard)
