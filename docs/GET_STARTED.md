@@ -1,439 +1,212 @@
-# 🎉 Corridor Cleaning Bot - Phase 1 Complete!
+# Getting Started
 
-## What You Got
-
-I've created a **production-ready Telegram bot** for managing your corridor cleaning tasks. Here's everything that's included:
-
-### ✅ Complete Feature Set (Phase 1 MVP)
-
-**Core Functionality:**
-- ✅ User registration via `/start`
-- ✅ Task completion tracking (`/complete`)
-- ✅ Weekly status reports (`/status`)
-- ✅ Task instructions (`/ask`)
-- ✅ Personal statistics (`/mystats`)
-- ✅ All 22 tasks from your schedule (toilets, showers, kitchen, fridges, hallways, trash)
-- ✅ Task opt-out system (for people with private fridges)
-
-**Technical Stack:**
-- ✅ Python 3.10+ with python-telegram-bot
-- ✅ PostgreSQL 16 database
-- ✅ SQLAlchemy ORM
-- ✅ Docker Compose for easy deployment
-- ✅ Proper database schema with relationships
-- ✅ Audit trail (completion log)
-- ✅ Environment-based configuration
-
-**Documentation:**
-- ✅ Complete README (architecture, troubleshooting, development)
-- ✅ 5-minute QUICKSTART guide
-- ✅ Comprehensive DEPLOYMENT guide
-- ✅ PROJECT_STRUCTURE overview
-- ✅ CHANGELOG for version tracking
+This guide is for first-time setup. It covers everything from creating a Telegram bot to having Pablito running for your corridor.
 
 ---
 
-## 📁 Project Structure
+## Before You Begin
 
-```
-corridor-bot/
-│
-├── 📋 Documentation
-│   ├── README.md               # Complete documentation
-│   ├── QUICKSTART.md           # 5-minute setup
-│   ├── DEPLOYMENT.md           # Testing & deployment
-│   ├── PROJECT_STRUCTURE.md    # Architecture
-│   └── CHANGELOG.md            # Version history
-│
-├── 🐍 Source Code
-│   ├── src/
-│   │   ├── bot.py             # Main bot (command handlers)
-│   │   ├── models.py          # Database models
-│   │   ├── database.py        # Database utilities
-│   │   └── config.py          # Configuration
-│   │
-│   └── scripts/
-│       ├── populate_db.py     # Initialize database
-│       ├── reset_db.py        # Reset database
-│       └── test_setup.py      # Verify installation
-│
-├── ⚙️ Configuration
-│   ├── .env.example           # Environment template
-│   ├── docker-compose.yml     # PostgreSQL setup
-│   ├── requirements.txt       # Python dependencies
-│   ├── alembic.ini            # Database migrations
-│   └── Makefile               # Convenience commands
-│
-└── 🗄️ Database
-    └── alembic/               # Migration management
-```
-
-**Total Files:** 20+ files, ~3,500 lines of code and documentation
+You need:
+- A Linux/macOS/Windows machine (or a Raspberry Pi) that stays online
+- Docker Desktop (or Docker Engine + Docker Compose)
+- Python 3.12+ and [uv](https://docs.astral.sh/uv/)
+- A Telegram account
+- Your corridor group on Telegram
 
 ---
 
-## 🚀 Quick Start (5 Minutes)
+## Part 1 — Create the Telegram Bot
 
-**Using UV (Recommended - 10-100x faster!):**
+### 1.1 Talk to @BotFather
+
+1. Open Telegram
+2. Search for `@BotFather` (verified blue checkmark)
+3. Send `/newbot`
+4. Choose a name: e.g. `Pablito Corridor Manager`
+5. Choose a username (must end in `bot`): e.g. `pablito_corridor_bot`
+6. Copy the token — it looks like: `1234567890:ABCdefGHIjklMNOpqrsTUVwxyz`
+
+Keep this token secret. Anyone with it can control your bot.
+
+### 1.2 Configure Bot Privacy (important for groups)
+
+Still in @BotFather:
+1. Send `/mybots`
+2. Select your bot
+3. → **Bot Settings** → **Group Privacy**
+4. Turn it **OFF** — otherwise the bot can't see group messages
+
+### 1.3 Add the Bot to Your Group
+
+1. Open your corridor Telegram group
+2. Tap the group name → Edit → Add Member
+3. Search for your bot's username and add it
+
+### 1.4 Get the Group Chat ID
+
+1. Send any message in the group (e.g., "test")
+2. In a browser, visit:
+   ```
+   https://api.telegram.org/bot<YOUR_TOKEN>/getUpdates
+   ```
+3. Find `"chat":{"id":-1001234567890}` in the JSON
+4. Copy the negative number — that's your `TELEGRAM_CHAT_ID`
+
+---
+
+## Part 2 — Set Up the Project
+
+### 2.1 Clone the Repository
+
 ```bash
-# 1. Setup
-cd corridor-bot
+git clone https://github.com/your-username/pablo-the-corridor-manager
+cd pablo-the-corridor-manager
+```
+
+### 2.2 Install uv (if not already)
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source ~/.bashrc  # or restart your terminal
+```
+
+Verify: `uv --version`
+
+### 2.3 Configure Environment
+
+```bash
 cp .env.example .env
-# Edit .env with your bot token
-
-# 2. Start database
-docker-compose up -d
-
-# 3. Install with UV (auto-creates .venv)
-uv sync
-
-# 4. Initialize database
-uv run python scripts/populate_db.py
-
-# 5. Verify
-uv run python scripts/test_setup.py
-
-# 6. Run
-uv run python src/bot.py
 ```
 
-**Traditional pip/venv (if you don't have uv):**
-```bash
-# See QUICKSTART.md for pip instructions
-```
+Open `.env` and fill in:
 
-📖 **For detailed UV setup:** See `UV_SETUP.md`
-
-**Bot Token:**
-1. Message `@BotFather` on Telegram
-2. Send `/newbot` and follow prompts
-3. Copy the token
-
-**Chat ID:**
-1. Add bot to your group
-2. Send any message
-3. Visit: `https://api.telegram.org/bot<TOKEN>/getUpdates`
-4. Find `"chat":{"id":-1001234567890}` - copy that number
-
-### 2. Setup
-
-```bash
-# Navigate to project
-cd corridor-bot
-
-# Create environment file
-cp .env.example .env
-
-# Edit with your tokens
-nano .env  # or your preferred editor
-```
-
-### 3. Start Database
-
-```bash
-docker-compose up -d
-sleep 10  # Wait for PostgreSQL
-```
-
-### 4. Install & Initialize
-
-```bash
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Initialize database
-python scripts/populate_db.py
-
-# Verify setup
-python scripts/test_setup.py
-```
-
-### 5. Run Bot
-
-```bash
-python src/bot.py
-```
-
-### 6. Test
-
-In Telegram:
-- `/start` - Register
-- `/status` - See tasks
-- `/complete Toilet 1` - Mark complete
-- `/mystats` - View your stats
-
----
-
-## 📊 Database Schema
-
-The system uses 7 tables:
-
-1. **people** - Corridor residents
-2. **task_types** - 22 task definitions
-3. **task_opt_outs** - Task exemptions
-4. **weeks** - Weekly cycles
-5. **task_instances** - Specific tasks per week
-6. **completion_log** - Audit trail
-7. **penalties** - Reserved for Phase 2
-
-**Sample Data Included:**
-- 22 task types (all from your schedule)
-- 3 test users (Alice, Bob, Charlie)
-- Current week with all tasks
-- Test opt-outs (Alice doesn't use fridges)
-
----
-
-## 🎯 Key Features Explained
-
-### 1. Voluntary Task Selection
-People choose which tasks to do - no forced assignments. This addresses your concern about the old rotating schedule.
-
-### 2. Task Opt-Out System
-People with private fridges/kitchens automatically can't complete those tasks:
-```python
-# Alice opted out of fridges
-/complete Fridge 1  # ❌ "You've opted out of this task"
-```
-
-### 3. Smart Task Matching
-```bash
-/complete toilet 1    # ✅ Matches "Toilet 1"
-/complete SHOWER a    # ✅ Matches "Shower A"
-/complete wash        # ✅ Matches "Wash Room"
-```
-
-### 4. Progress Tracking
-```
-📅 Week 5/2026
-⏰ Deadline: Friday, February 07 at 12:00
-Progress: ███░░░░░░░ 5/22
-
-✅ Completed (5)
-⏳ Pending (17)
-💭 Haven't contributed yet: Alice, Dave, Emma
-```
-
-### 5. Audit Trail
-Every completion is logged with:
-- Who completed it
-- When it was completed
-- Which Telegram message
-- Full history for disputes
-
----
-
-## 🔧 What Phase 1 Does NOT Include
-
-These are planned for Phase 2+:
-
-❌ **Automatic reminders** (Wednesday, Friday)
-- **Workaround:** Manually send reminders in group
-
-❌ **Automatic week generation** (Monday 00:01)
-- **Workaround:** See DEPLOYMENT.md for manual week creation
-
-❌ **Penalty enforcement**
-- **Status:** Database tracks penalties but no automation yet
-
-❌ **Photo verification**
-- **Status:** Planned for Phase 2
-
----
-
-## 🎓 Learning Points
-
-### For Your Development Skills
-
-**What you can learn from this project:**
-
-1. **Database Design:** Proper schema with foreign keys, constraints, relationships
-2. **ORM Usage:** SQLAlchemy for type-safe database operations
-3. **Bot Development:** python-telegram-bot with async/await
-4. **Docker Deployment:** Multi-container setup with volumes
-5. **Configuration Management:** Environment-based config with pydantic
-6. **Code Organization:** Clean project structure, separation of concerns
-7. **Documentation:** Professional-level docs for open-source projects
-
-**Key Patterns Used:**
-- Repository pattern (database.py)
-- Command pattern (bot handlers)
-- Context managers (database sessions)
-- Factory pattern (config loading)
-- Dependency injection (database sessions)
-
----
-
-## 📈 What Comes Next
-
-### Phase 2 (Automation) - ~1-2 weeks
-- Scheduled reminders
-- Auto-generate weeks
-- Auto-close weeks
-- Penalty calculation
-
-### Phase 3 (Analytics) - ~2-3 weeks
-- Grafana dashboard
-- Leaderboards
-- Task difficulty analysis
-- Procrastination patterns
-
-### Phase 4 (Advanced) - Future
-- Photo verification
-- Task swapping
-- Points system
-- Multi-corridor support
-
----
-
-## 🐛 If Something Goes Wrong
-
-**Common Issues:**
-
-1. **Bot doesn't start**
-   - Check `TELEGRAM_BOT_TOKEN` in `.env`
-   - Verify with: `curl https://api.telegram.org/bot<TOKEN>/getMe`
-
-2. **Database connection fails**
-   - Ensure Docker is running: `docker-compose ps`
-   - Check logs: `docker-compose logs postgres`
-   - Restart: `docker-compose restart`
-
-3. **No active week found**
-   - Repopulate: `python scripts/reset_db.py && python scripts/populate_db.py`
-
-4. **Bot doesn't respond in group**
-   - Disable privacy mode in @BotFather
-   - Check `TELEGRAM_CHAT_ID` is correct (negative number)
-
-**Full Troubleshooting:** See DEPLOYMENT.md
-
----
-
-## 🎨 Customization Options
-
-### Add New Tasks
-Edit `scripts/populate_db.py` and add to `task_definitions` list.
-
-### Change Week Deadline
-Edit `.env`:
 ```env
-WEEK_DEADLINE_DAY=friday
-WEEK_DEADLINE_HOUR=12
-WEEK_DEADLINE_MINUTE=0
+# Required
+TELEGRAM_BOT_TOKEN=1234567890:ABCdefGHIjklMNOpqrsTUVwxyz
+TELEGRAM_CHAT_ID=-1001234567890
+POSTGRES_PASSWORD=choose_a_strong_password_here
+
+# Optional — defaults are fine for most setups
+POSTGRES_DB=corridor
+POSTGRES_USER=corridor_admin
+POSTGRES_HOST=localhost
+LOG_LEVEL=INFO
 ```
 
-### Add Opt-Outs
-Direct database manipulation or build admin commands (Phase 2).
+Save and close.
 
-### Modify Task Instructions
-Update `task_types` table in database via pgAdmin.
+### 2.4 Start PostgreSQL
 
----
+```bash
+docker-compose up -d
+```
 
-## 💡 Tips for Your Corridor
+This starts:
+- PostgreSQL on port 5432
+- pgAdmin (optional web UI) on port 5050
 
-### Week 1: Testing Phase
-- Start with just a few people (3-5)
-- Complete easy tasks first (trash, hallways)
-- Gather feedback
-- Adjust task descriptions
+Wait 15 seconds for the database to initialize.
 
-### Week 2-3: Full Deployment
-- Add all 15 corridor members
-- Monitor participation
-- Send manual reminders
-- Track which tasks get ignored
+### 2.5 Install Python Dependencies
 
-### Week 4+: Optimization
-- Analyze which tasks are avoided
-- Consider adjusting task difficulty ratings
-- Plan Phase 2 features based on feedback
-- Build custom admin commands if needed
+```bash
+uv sync
+```
 
----
+This reads `pyproject.toml`, creates a `.venv`, and installs everything. No manual `pip install` or `venv` activation needed.
 
-## 📞 Support
+### 2.6 Initialize the Database
 
-**Documentation:**
-- QUICKSTART.md - Fast setup
-- DEPLOYMENT.md - Testing guide
-- README.md - Complete reference
-- PROJECT_STRUCTURE.md - Architecture
+```bash
+uv run python scripts/populate_db.py
+```
 
-**Database Management:**
-- pgAdmin: http://localhost:5050
-- Direct access: `docker exec -it corridor-db psql -U corridor_admin corridor`
+This creates:
+- All 22 task type definitions (toilets, showers, kitchen, etc.)
+- 3 test users (Alice, Bob, Charlie)
+- The current week with task instances
 
-**Logs:**
-- Bot: Check terminal where bot runs
-- Database: `docker-compose logs postgres`
-- Errors: Check Telegram for error messages
+### 2.7 Verify the Setup
+
+```bash
+uv run python scripts/test_setup.py
+```
+
+You should see all green ✅. If anything fails, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
 
 ---
 
-## 🏆 Success Criteria
+## Part 3 — First Run
 
-**You know it's working when:**
+### 3.1 Start the Bot
 
-✅ 2-3 people successfully register
-✅ Tasks get marked complete
-✅ Status updates accurately
-✅ No errors in bot logs
-✅ Database tracks everything correctly
-✅ Opt-out system works
-✅ Personal stats show accurate data
+```bash
+make start
+# or: uv run python src/bot.py
+```
 
-**First Week Goals:**
-- [ ] 60%+ tasks completed
-- [ ] 80%+ corridor participation
-- [ ] <5 complaints about difficulty
-- [ ] No technical issues
+You should see:
+```
+✅ Reminders scheduled: Days [1, 4], Times: ['10:00', '18:00']
+✅ Week rollover scheduled: Check time: 23:59 daily
+INFO - Starting Pablito's Corridor Manager Bot...
+INFO - Application started
+```
 
----
+### 3.2 Test in Telegram
 
-## 🎉 Congratulations!
+1. **In the group:** send `/start` — bot should welcome you
+2. **In the group:** send `/status` — should show this week's task list
+3. **In private chat with the bot:** send `/start`, then tap **✅ Complete Task**
 
-You now have a production-ready corridor cleaning bot with:
-- ✅ 7 database tables
-- ✅ 22 task types
-- ✅ 8 bot commands
-- ✅ Complete documentation
-- ✅ Testing framework
-- ✅ Deployment guides
+### 3.3 Have Corridor Mates Register
 
-**Next Steps:**
-1. Read QUICKSTART.md
-2. Follow deployment steps
-3. Test with 2-3 people
-4. Deploy to full corridor
-5. Monitor and iterate
-
-**Good luck! 🚀**
+Each person in your corridor needs to:
+1. Find the bot by its username in Telegram
+2. Send `/start` to register
+3. OR: they can send `/start` in the group too
 
 ---
 
-## Critical Responses to Your Earlier Concerns
+## Part 4 — Remove Test Data
 
-### "People didn't do tasks anyway with rotating schedule"
-✅ **Fixed:** Voluntary selection lets people choose when they have time, reducing resentment from forced assignments.
+Once you've verified everything works, remove the test users:
 
-### "People didn't pay penalties"
-⚠️ **Partially addressed:** Database tracks everything, but enforcement still requires social pressure. Phase 2 will add automatic reminders making it harder to ignore.
+```bash
+make reset
+make populate
+```
 
-### "I wanted people to be able to specialize"
-✅ **Fixed:** People can consistently do their preferred tasks. Data will show who specializes in what.
+> ⚠️ `make reset` wipes everything. Only do this before going live, not after people start using it.
 
-### "Some people are busier than others"
-✅ **Fixed:** No minimum per week in Phase 1. People contribute when able. Phase 2 can add flexible minimums.
-
-### "Marginal tasks nobody wants"
-✅ **Addressed:** Status shows which tasks remain longest. Analytics in Phase 3 will identify systematically avoided tasks.
+If you only want to remove test users (Alice, Bob, Charlie) without resetting:
+```bash
+docker exec -it pablo-postgres psql -U corridor_admin -d corridor
+DELETE FROM people WHERE name IN ('Alice', 'Bob', 'Charlie');
+```
 
 ---
 
-**Remember:** This is Phase 1 MVP. It solves the core tracking problem. Social dynamics still matter - technology can't force people to care, but it can make caring easier and more visible.
+## Part 5 — Keep It Running
+
+For persistent deployment (bot survives reboots), see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+For everyday admin tasks, see [ADMIN_GUIDE.md](ADMIN_GUIDE.md).
+
+---
+
+## Summary Checklist
+
+- [ ] Created bot via @BotFather
+- [ ] Disabled group privacy for bot
+- [ ] Added bot to corridor group
+- [ ] Got `TELEGRAM_CHAT_ID`
+- [ ] Configured `.env`
+- [ ] Started PostgreSQL (`docker-compose up -d`)
+- [ ] Installed dependencies (`uv sync`)
+- [ ] Populated database (`make populate`)
+- [ ] Verified setup (`scripts/test_setup.py`)
+- [ ] Bot running and responding
+- [ ] All corridor mates registered via `/start`
+- [ ] Test users removed
+- [ ] Set up systemd/persistent runner (see DEPLOYMENT.md)

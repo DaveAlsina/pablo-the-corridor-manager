@@ -1,0 +1,56 @@
+<svg viewBox="0 0 860 260" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <rect width="860" height="260" fill="#0d1117" rx="12"/>
+  <text x="430" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#e6edf3">Weekly Timeline</text>
+
+  <!-- Timeline line -->
+  <line x1="60" y1="120" x2="800" y2="120" stroke="#30363d" stroke-width="2"/>
+
+  <!-- Day markers -->
+  <!-- Monday -->
+  <circle cx="100" cy="120" r="8" fill="#3fb950" stroke="#0d1117" stroke-width="2"/>
+  <text x="100" y="148" text-anchor="middle" font-size="11" fill="#8b949e">Mon</text>
+  <text x="100" y="162" text-anchor="middle" font-size="10" fill="#3fb950">Week starts</text>
+  <line x1="100" y1="112" x2="100" y2="88" stroke="#3fb950" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <rect x="50" y="58" width="100" height="28" rx="5" fill="#161b22" stroke="#3fb950" stroke-width="1"/>
+  <text x="100" y="77" text-anchor="middle" font-size="10" fill="#3fb950">🆕 New week</text>
+
+  <!-- Tuesday -->
+  <circle cx="240" cy="120" r="8" fill="#e3b341" stroke="#0d1117" stroke-width="2"/>
+  <text x="240" y="148" text-anchor="middle" font-size="11" fill="#8b949e">Tue</text>
+  <line x1="240" y1="112" x2="240" y2="78" stroke="#e3b341" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <rect x="175" y="50" width="130" height="26" rx="5" fill="#161b22" stroke="#e3b341" stroke-width="1"/>
+  <text x="240" y="68" text-anchor="middle" font-size="10" fill="#e3b341">📢 10:00 + 18:00</text>
+  <text x="240" y="162" text-anchor="middle" font-size="10" fill="#e3b341">Reminder #1</text>
+
+  <!-- Wednesday -->
+  <circle cx="380" cy="120" r="5" fill="#30363d" stroke="#30363d" stroke-width="1"/>
+  <text x="380" y="148" text-anchor="middle" font-size="11" fill="#8b949e">Wed</text>
+
+  <!-- Thursday -->
+  <circle cx="520" cy="120" r="5" fill="#30363d" stroke="#30363d" stroke-width="1"/>
+  <text x="520" y="148" text-anchor="middle" font-size="11" fill="#8b949e">Thu</text>
+
+  <!-- Friday -->
+  <circle cx="620" cy="120" r="8" fill="#e3b341" stroke="#0d1117" stroke-width="2"/>
+  <text x="620" y="148" text-anchor="middle" font-size="11" fill="#8b949e">Fri</text>
+  <line x1="620" y1="112" x2="620" y2="78" stroke="#e3b341" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <rect x="555" y="50" width="130" height="26" rx="5" fill="#161b22" stroke="#e3b341" stroke-width="1"/>
+  <text x="620" y="68" text-anchor="middle" font-size="10" fill="#e3b341">📢 10:00 + 18:00</text>
+  <text x="620" y="162" text-anchor="middle" font-size="10" fill="#e3b341">Final reminder</text>
+
+  <!-- Saturday -->
+  <circle cx="720" cy="120" r="5" fill="#30363d" stroke="#30363d" stroke-width="1"/>
+  <text x="720" y="148" text-anchor="middle" font-size="11" fill="#8b949e">Sat</text>
+
+  <!-- Sunday -->
+  <circle cx="800" cy="120" r="10" fill="#f78166" stroke="#0d1117" stroke-width="2"/>
+  <text x="800" y="148" text-anchor="middle" font-size="11" fill="#8b949e">Sun</text>
+  <line x1="800" y1="110" x2="800" y2="68" stroke="#f78166" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <rect x="720" y="42" width="155" height="24" rx="5" fill="#161b22" stroke="#f78166" stroke-width="1"/>
+  <text x="797" y="59" text-anchor="middle" font-size="10" fill="#f78166">23:59 — Week closes</text>
+  <text x="800" y="175" text-anchor="middle" font-size="10" fill="#f78166">📊 Summary sent</text>
+  <text x="800" y="190" text-anchor="middle" font-size="10" fill="#3fb950">🆕 New week opens</text>
+
+  <!-- Completion events example -->
+  <text x="430" y="220" text-anchor="middle" font-size="11" fill="#58a6ff">✅ Any time someone completes a task → group notification sent immediately</text>
+</svg>

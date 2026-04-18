@@ -1,185 +1,97 @@
 # Changelog
 
-All notable changes to the Corridor Cleaning Bot project will be documented in this file.
+All notable changes to Pablo the Corridor Manager are documented here.
 
-## [0.1.0] - 2026-02-01 - Phase 1 MVP
+---
+
+## [1.0.0] — 2026-04-18 — First Release
+
+### Highlights
+Full automation added on top of the MVP: Pablito now manages the entire weekly cycle by himself — reminders, closing, and opening new weeks. No manual intervention needed.
+
+### Added (since 0.1.0)
+- ✅ **Scheduled reminders** — automatic messages sent Tuesday and Friday at 10:00 and 18:00 showing pending tasks, a progress bar, and who hasn't contributed yet
+- ✅ **Automatic week closing** — every Sunday at 23:59, Pablito closes the current week and sends a summary to the group
+- ✅ **Week summary messages** — contributors ranked by task count, gentle reminder for non-contributors
+- ✅ **Automatic week generation** — immediately after closing, a new week is created and announced
+- ✅ **Interactive inline menus** — full button-driven navigation replacing raw text commands
+- ✅ **Private/group chat split** — sensitive actions (complete, amend, stats) are private; status/tasks are public
+- ✅ **Task amendment** — undo a task completion (with group notification)
+- ✅ **Corridor map** — `/map` shows a visual layout of task locations
+- ✅ **Opt-out via menu** — in addition to command, opt-outs available through button interface
+- ✅ **Handlers refactor** — `src/handlers/` module with `task_handlers.py`, `info_handlers.py`, `optout_handlers.py`
+- ✅ **`src/menus.py`** — centralized menu/keyboard builder
+- ✅ **`src/reminders.py`** — reminder scheduler
+- ✅ **`src/week_manager.py`** — week rollover logic with `force_week_rollover()` utility
+
+### Changed
+- Week deadline moved from **Friday** to **Sunday** (23:59)
+- Reminders now run **Tuesday + Friday** (not Wednesday + Friday)
+- Project now managed with **uv** (not pip/requirements.txt)
+- Python requirement bumped to **3.12+** (was 3.10+)
+- README completely rewritten
+- Architecture tree updated in PROJECT_STRUCTURE.md
+
+### Known Gaps (planned for v1.1.0)
+- Admin bot commands for manual week management not yet wired (backend logic exists in `week_manager.py::force_week_rollover`)
+- No `/closeweek` or `/newweek` commands yet
+
+---
+
+## [0.1.0] — 2026-02-01 — Phase 1 MVP
 
 ### Added
-- ✅ Complete project structure and setup
-- ✅ PostgreSQL database with Docker Compose
-- ✅ SQLAlchemy ORM with 7 database models
-- ✅ Telegram bot with core commands:
-  - `/start` - User registration
-  - `/help` - Command reference
-  - `/status` - Weekly task status
-  - `/tasks` - List all available tasks
-  - `/complete` - Mark task as complete
-  - `/ask` - Get task instructions
-  - `/mystats` - Personal statistics
-- ✅ Database population script with 22 task types
-- ✅ Test data (3 test users)
-- ✅ Task opt-out system
-- ✅ Setup verification script
-- ✅ Comprehensive documentation:
-  - README.md (full documentation)
-  - QUICKSTART.md (5-minute setup)
-  - DEPLOYMENT.md (deployment & testing guide)
-  - PROJECT_STRUCTURE.md (architecture overview)
-- ✅ Development utilities:
-  - Makefile for common commands
-  - Database reset script
-  - .gitignore configuration
-  - Environment template (.env.example)
+- PostgreSQL database with Docker Compose
+- SQLAlchemy ORM with 7 database models
+- Core Telegram commands: `/start`, `/help`, `/status`, `/tasks`, `/complete`, `/ask`, `/mystats`
+- 22 predefined task types (toilets, showers, kitchen, fridges, hallways, trash, wash room)
+- Task opt-out system
+- Database population script
+- Setup verification script (`scripts/test_setup.py`)
+- Makefile for common operations
+- Initial documentation: README, QUICKSTART, DEPLOYMENT, PROJECT_STRUCTURE, GET_STARTED
 
-### Database Schema
-- **people** - Corridor residents with Telegram IDs
-- **task_types** - 22 predefined cleaning tasks
-- **task_opt_outs** - Exemptions for specific tasks
-- **weeks** - Weekly cycles with deadlines
-- **task_instances** - Specific tasks per week
-- **completion_log** - Audit trail for completions
-- **penalties** - Reserved for Phase 2
+---
 
-### Task Types Included
-- 4 Toilets (1-4)
-- 4 Showers (A-D)
-- 3 Kitchen tasks (A, E, I)
-- 4 Fridges (1-4)
-- 2 Hallways (Main, Side)
-- 1 Wash room
-- 4 Trash tasks (Paper, Glass, Plastic, Kitchen)
+## [Planned] — v1.1.0 — Admin Controls
 
-### Features
-- ✅ User-friendly command interface
-- ✅ Partial task name matching
-- ✅ Progress tracking per week
-- ✅ Personal statistics
-- ✅ Multi-user concurrent access
-- ✅ Case-insensitive task matching
-- ✅ Task completion verification
-- ✅ Opt-out enforcement
+- [ ] `/closeweek` command — manually close current week
+- [ ] `/newweek` command — manually open a new week
+- [ ] `/announce <msg>` — send group announcement from bot
+- [ ] Admin role system
 
-### Documentation
-- Setup guides for beginners and advanced users
-- Troubleshooting section
-- Database management instructions
-- Development workflow guide
-- Complete API reference for all commands
+## [Planned] — v1.2.0 — Accountability
 
-## [Upcoming] - Phase 2 - Automation
-
-### Planned Features
-- [ ] Scheduled reminders (Wednesday mid-week, Friday final)
-- [ ] Automatic week generation (Monday 00:01)
-- [ ] Automatic week closing (Friday 12:01)
-- [ ] Penalty calculation and tracking
-- [ ] Admin commands for manual management
-- [ ] Photo evidence upload for tasks
-- [ ] Weekly summary reports
+- [ ] Penalty calculation per missed task
+- [ ] Photo evidence upload for task completion
+- [ ] `/leaderboard` — weekly/monthly contributor ranking
 - [ ] Backup/restore mechanism
 
-## [Future] - Phase 3 - Analytics
+## [Planned] — v2.0.0 — Analytics
 
-### Planned Features
 - [ ] Grafana dashboard
-- [ ] Leaderboard system
-- [ ] Task difficulty ratings
-- [ ] Time-series analysis:
-  - Most procrastinated tasks
-  - Popular completion days
-  - Task completion patterns
-  - Individual contribution trends
-- [ ] Export functionality (CSV, JSON)
-- [ ] Custom report generation
-
-## [Future] - Phase 4 - Advanced Features
-
-### Ideas Under Consideration
-- [ ] Task swapping mechanism
-- [ ] Points redemption system
-- [ ] Integration with building management
-- [ ] Mobile app (native or web-based)
-- [ ] Multi-corridor support
-- [ ] Task templates for different corridor sizes
-- [ ] Notification preferences per user
-- [ ] Task scheduling (reserve future tasks)
-- [ ] Dispute resolution system
-- [ ] Reward milestones
+- [ ] Most procrastinated tasks
+- [ ] Popular completion days
+- [ ] Individual contribution trends
+- [ ] Export (CSV, JSON)
 
 ---
 
-## Version Notes
+## Versioning
 
-**Semantic Versioning:** MAJOR.MINOR.PATCH
-- MAJOR: Incompatible API/database changes
-- MINOR: New features, backwards compatible
-- PATCH: Bug fixes, backwards compatible
-
-**Current Version:** 0.1.0 (Phase 1 MVP)
-**Status:** Beta - Ready for testing with 2-15 users
-**Python:** 3.10+
-**PostgreSQL:** 16
-
----
+Follows [Semantic Versioning](https://semver.org/):
+- **MAJOR** — incompatible database or API changes
+- **MINOR** — new features, backwards compatible
+- **PATCH** — bug fixes, backwards compatible
 
 ## Migration Notes
 
-### From 0.0.0 to 0.1.0
-- Initial release, no migration needed
-- Run `python scripts/populate_db.py` for fresh installation
+### 0.1.0 → 1.0.0
+No schema changes. New code only (handlers refactor, reminders, week_manager).
+- Run `uv sync` to update dependencies
+- Restart the bot — automation starts automatically
 
-### Future Migrations
-Database migrations will be managed via Alembic:
+### Fresh Install
 ```bash
-# Create migration
-alembic revision --autogenerate -m "description"
-
-# Apply migration
-alembic upgrade head
-
-# Rollback
-alembic downgrade -1
+uv run python scripts/populate_db.py
 ```
-
----
-
-## Known Issues
-
-### Phase 1
-- No automatic week management (requires manual creation)
-- No scheduled reminders (must check manually)
-- No penalty enforcement (database tracks but no automation)
-- Week deadline is informational only (doesn't auto-close)
-- Photo uploads not implemented (planned for Phase 2)
-
-### Limitations
-- Single corridor only (no multi-corridor support)
-- No task swapping between users
-- No historical analytics (Phase 3 feature)
-- Manual opt-out management (no self-service UI)
-
----
-
-## Contributing
-
-To contribute to this project:
-1. Check current version and planned features
-2. Review open issues (if using issue tracker)
-3. Test changes thoroughly
-4. Update this CHANGELOG.md
-5. Update documentation if adding features
-6. Follow existing code style
-7. Add tests for new features
-
----
-
-## Support
-
-For version-specific issues:
-- v0.1.0: See DEPLOYMENT.md for troubleshooting
-- Future versions: Check relevant documentation
-
-For general help:
-- README.md - Complete documentation
-- QUICKSTART.md - Fast setup guide
-- PROJECT_STRUCTURE.md - Architecture details

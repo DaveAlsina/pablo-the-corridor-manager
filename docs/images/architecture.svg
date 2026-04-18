@@ -1,0 +1,74 @@
+<svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Arial, sans-serif">
+  <!-- Background -->
+  <rect width="800" height="520" fill="#0d1117" rx="12"/>
+
+  <!-- Title -->
+  <text x="400" y="36" text-anchor="middle" font-size="18" font-weight="bold" fill="#e6edf3">Pablito — Architecture Overview</text>
+
+  <!-- Telegram API box -->
+  <rect x="320" y="60" width="160" height="44" rx="8" fill="#1d6fa4" stroke="#4493c8" stroke-width="1.5"/>
+  <text x="400" y="87" text-anchor="middle" font-size="14" fill="#ffffff" font-weight="bold">Telegram API</text>
+
+  <!-- Arrow down to bot.py -->
+  <line x1="400" y1="104" x2="400" y2="130" stroke="#58a6ff" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- bot.py central box -->
+  <rect x="200" y="130" width="400" height="68" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="400" y="154" text-anchor="middle" font-size="13" font-weight="bold" fill="#58a6ff">src/bot.py — CorridorBot</text>
+  <text x="400" y="172" text-anchor="middle" font-size="11" fill="#8b949e">Command routing · Private/group enforcement · notify_group()</text>
+  <text x="400" y="188" text-anchor="middle" font-size="11" fill="#8b949e">setup_reminders() · setup_week_rollover() on init</text>
+
+  <!-- Three arrows down -->
+  <line x1="280" y1="198" x2="200" y2="238" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="400" y1="198" x2="400" y2="238" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="520" y1="198" x2="600" y2="238" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Handlers box -->
+  <rect x="60" y="238" width="280" height="100" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="200" y="260" text-anchor="middle" font-size="12" font-weight="bold" fill="#3fb950">src/handlers/</text>
+  <text x="200" y="278" text-anchor="middle" font-size="11" fill="#8b949e">task_handlers.py</text>
+  <text x="200" y="294" text-anchor="middle" font-size="11" fill="#8b949e">info_handlers.py</text>
+  <text x="200" y="310" text-anchor="middle" font-size="11" fill="#8b949e">optout_handlers.py</text>
+  <text x="200" y="326" text-anchor="middle" font-size="11" fill="#8b949e">menus.py</text>
+
+  <!-- Reminders box -->
+  <rect x="270" y="238" width="260" height="100" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="400" y="260" text-anchor="middle" font-size="12" font-weight="bold" fill="#e3b341">src/reminders.py</text>
+  <text x="400" y="280" text-anchor="middle" font-size="11" fill="#8b949e">Tuesday 10:00 + 18:00</text>
+  <text x="400" y="296" text-anchor="middle" font-size="11" fill="#8b949e">Friday 10:00 + 18:00</text>
+  <text x="400" y="312" text-anchor="middle" font-size="11" fill="#8b949e">Progress bar + who's missing</text>
+  <text x="400" y="328" text-anchor="middle" font-size="11" fill="#8b949e">APScheduler job queue</text>
+
+  <!-- Week manager box -->
+  <rect x="470" y="238" width="270" height="100" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="605" y="260" text-anchor="middle" font-size="12" font-weight="bold" fill="#f78166">src/week_manager.py</text>
+  <text x="605" y="280" text-anchor="middle" font-size="11" fill="#8b949e">Sunday 23:59 rollover</text>
+  <text x="605" y="296" text-anchor="middle" font-size="11" fill="#8b949e">Week summary + close</text>
+  <text x="605" y="312" text-anchor="middle" font-size="11" fill="#8b949e">New week creation</text>
+  <text x="605" y="328" text-anchor="middle" font-size="11" fill="#8b949e">force_week_rollover()</text>
+
+  <!-- Arrows down to DB layer -->
+  <line x1="200" y1="338" x2="290" y2="388" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="400" y1="338" x2="400" y2="388" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="605" y1="338" x2="510" y2="388" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Database layer -->
+  <rect x="120" y="388" width="560" height="68" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="400" y="412" text-anchor="middle" font-size="13" font-weight="bold" fill="#8957e5">src/database.py · src/models.py</text>
+  <text x="400" y="432" text-anchor="middle" font-size="11" fill="#8b949e">SQLAlchemy ORM  ·  get_db() context manager</text>
+  <text x="400" y="449" text-anchor="middle" font-size="11" fill="#8b949e">people · task_types · task_opt_outs · weeks · task_instances · completion_log · penalties</text>
+
+  <!-- Arrow to PostgreSQL -->
+  <line x1="400" y1="456" x2="400" y2="480" stroke="#58a6ff" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- PostgreSQL box -->
+  <rect x="280" y="480" width="240" height="30" rx="6" fill="#1f6feb" stroke="#388bfd" stroke-width="1.5"/>
+  <text x="400" y="500" text-anchor="middle" font-size="13" fill="#ffffff" font-weight="bold">PostgreSQL (Docker)</text>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#58a6ff"/>
+    </marker>
+  </defs>
+</svg>

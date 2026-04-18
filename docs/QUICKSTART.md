@@ -1,165 +1,127 @@
-# Quick Start Guide
+# Quick Start
 
-## 🚀 Get Up and Running in 5 Minutes
+## 🚀 Get Running in 5 Minutes
 
-### Prerequisites Check
+### Prerequisites
+
 ```bash
-# Check if you have the required tools
-python --version  # Should be 3.10+
+python --version      # Must be 3.12+
 docker --version
-docker-compose --version
+uv --version          # https://docs.astral.sh/uv/
 ```
 
-### Step 1: Get a Telegram Bot Token
+No `uv`? Install it:
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
-1. Open Telegram and search for `@BotFather`
-2. Send `/newbot`
-3. Follow prompts to name your bot
-4. Copy the token (looks like: `123456789:ABCdefGHIjklMNOpqrsTUVwxyz`)
+---
 
-### Step 2: Get Your Group Chat ID
+### Step 1 — Get a Telegram Bot Token
 
-1. Add your bot to your corridor group
-2. Send any message in the group (e.g., "test")
-3. Visit this URL in your browser (replace `<YOUR_TOKEN>`):
-   ```
-   https://api.telegram.org/bot<YOUR_TOKEN>/getUpdates
-   ```
-4. Look for `"chat":{"id":-1001234567890}`
-5. Copy that negative number (e.g., `-1001234567890`)
+1. Open Telegram → search `@BotFather`
+2. Send `/newbot` and follow prompts
+3. Copy the token: `123456789:ABCdefGHIjklMNOpqrsTUVwxyz`
 
-### Step 3: Configure
+### Step 2 — Get Your Group Chat ID
+
+1. Add your bot to the corridor group
+2. Send any message in the group
+3. Visit: `https://api.telegram.org/bot<YOUR_TOKEN>/getUpdates`
+4. Look for `"chat":{"id":-1001234567890}` — copy that number
+
+### Step 3 — Configure
 
 ```bash
-# Copy environment template
 cp .env.example .env
-
-# Edit .env with your favorite editor
-nano .env  # or vim, code, etc.
 ```
 
-Set these values:
+Edit `.env`:
 ```env
 TELEGRAM_BOT_TOKEN=123456789:ABCdefGHIjklMNOpqrsTUVwxyz
 TELEGRAM_CHAT_ID=-1001234567890
 POSTGRES_PASSWORD=choose_something_secure
 ```
 
-Save and exit.
-
-### Step 4: Start Database
+### Step 4 — Start Database
 
 ```bash
 docker-compose up -d
+# Wait 10 seconds for PostgreSQL to initialize
 ```
 
-Wait 10 seconds for PostgreSQL to start up.
-
-### Step 5: Setup Python Environment
+### Step 5 — Install Dependencies
 
 ```bash
-# Install dependencies with uv (much faster than pip!)
 uv sync
-
-# This creates a .venv directory and installs all dependencies
-# No need to manually create or activate virtual environment!
 ```
 
-### Step 6: Initialize Database
+### Step 6 — Initialize Database
 
 ```bash
 uv run python scripts/populate_db.py
 ```
 
-You should see:
+Expected output:
 ```
-INFO - Creating task types...
-INFO - Created 22 task types
-INFO - Creating test people...
-INFO - Created 3 test people
-INFO - Creating current week...
-INFO - Created week X/2026 with 22 task instances
-INFO - Database population completed successfully!
+INFO - Creating task types... ✅ 22 task types created
+INFO - Creating test users...  ✅ 3 test users created
+INFO - Creating current week... ✅ Week 16/2026 created
 ```
 
-### Step 7: Verify Setup
+### Step 7 — Verify
 
 ```bash
 uv run python scripts/test_setup.py
 ```
 
-All tests should pass ✅
+All checks should pass ✅.
 
-### Step 8: Start the Bot
-
-```bash
-uv run python src/bot.py
-```
-
-You should see:
-```
-INFO - Starting Corridor Bot...
-INFO - Application started
-```
-
-### Step 9: Test It!
-
-In your Telegram corridor group:
-
-1. Send `/start` - Bot should welcome you
-2. Send `/status` - Should show this week's tasks
-3. Send `/tasks` - Should list all 22 tasks
-4. Send `/complete Toilet 1` - Should mark task complete
-5. Send `/mystats` - Should show your stats
-
-## 🎉 Success!
-
-You now have a working corridor cleaning bot!
-
-## Common Issues
-
-### "Connection refused" when starting bot
-- PostgreSQL not running: `docker-compose up -d`
-- Wait 10-20 seconds after starting PostgreSQL
-
-### "No active week found"
-- Database not populated: `python scripts/populate_db.py`
-
-### Bot doesn't respond in group
-- Bot not admin in group (doesn't need to be, but helps)
-- Wrong TELEGRAM_CHAT_ID in .env
-- Check token is correct: visit `https://api.telegram.org/bot<TOKEN>/getMe`
-
-### "Database already contains data"
-- Reset it: `python scripts/reset_db.py`
-- Then repopulate: `python scripts/populate_db.py`
-
-## Using Makefile (Optional Shortcut)
-
-If you have `make` installed:
+### Step 8 — Start Pablito
 
 ```bash
-make setup      # Initial setup
-make install    # Install dependencies with uv
-make populate   # Populate database
-make test       # Run tests
-make start      # Start bot
-make reset      # Reset database (dangerous!)
+make start
+# or: uv run python src/bot.py
 ```
 
-## Next Steps
-
-1. Add your real corridor members (they use `/start`)
-2. Configure task opt-outs if needed (see README.md)
-3. Start using it for real!
-4. Later: Add scheduled reminders (Phase 2)
-
-## Help & Support
-
-- Full documentation: `README.md`
-- Database guide: Check pgAdmin at `http://localhost:5050`
-- Reset everything: `make reset && make populate`
+Output:
+```
+✅ Reminders scheduled: Days [1, 4], Times: ['10:00', '18:00']
+✅ Week rollover scheduled: Check time: 23:59 daily
+INFO - Starting Pablito's Corridor Manager Bot...
+```
 
 ---
 
-**Ready to clean! 🧹**
+## Test It
+
+In your Telegram group:
+1. Send `/start` — bot welcomes you
+2. Send `/status` — shows this week's tasks
+3. Go to private chat with the bot → tap **✅ Complete Task** → pick a task
+
+---
+
+## Makefile Shortcuts
+
+```bash
+make help       # All available commands
+make setup      # Steps 4+5 in one go
+make start      # Run the bot
+make populate   # Step 6
+make test       # Step 7
+make reset      # Wipe all data (⚠️ careful)
+```
+
+---
+
+## Common Issues
+
+| Problem | Fix |
+|---|---|
+| "connection refused" | `docker-compose up -d`, wait 15s |
+| "No active week found" | `make populate` |
+| Bot doesn't respond in group | Check `TELEGRAM_CHAT_ID` is correct |
+| `uv: command not found` | Install uv (see above) |
+
+→ More help: [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
